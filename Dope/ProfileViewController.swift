@@ -11,6 +11,9 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
+    
+    private let questionsStore = QuestionsStore.sharedInstance
+    private let scoresStore = ScoresStore.sharedInstance
 
     override func viewDidLoad() {
         super.viewDidLoad()

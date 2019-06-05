@@ -20,6 +20,7 @@
 		11D33BBA22A6B98000F3FCEA /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D33BB922A6B98000F3FCEA /* UserStore.swift */; };
 		11D33BBC22A6BAEF00F3FCEA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D33BBB22A6BAEF00F3FCEA /* Models.swift */; };
 		11D33BBF22A6CBDB00F3FCEA /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D33BBE22A6CBDB00F3FCEA /* NetworkHandler.swift */; };
+		11D33BC122A8121C00F3FCEA /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D33BC022A8121C00F3FCEA /* DataStore.swift */; };
 		6E2CFCD30E074C7A3DC33357 /* Pods_Dope.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E9E8831C47B815524B799C /* Pods_Dope.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		11D33BB922A6B98000F3FCEA /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		11D33BBB22A6BAEF00F3FCEA /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		11D33BBE22A6CBDB00F3FCEA /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		11D33BC022A8121C00F3FCEA /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		A0527268EE5A8BC89BA11D5C /* Pods-Dope.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dope.debug.xcconfig"; path = "Target Support Files/Pods-Dope/Pods-Dope.debug.xcconfig"; sourceTree = "<group>"; };
 		D7E9E8831C47B815524B799C /* Pods_Dope.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dope.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5BECF5021329FD2B4AB2CC8 /* Pods-Dope.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dope.release.xcconfig"; path = "Target Support Files/Pods-Dope/Pods-Dope.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,10 +84,10 @@
 				11D33BB422A57D6F00F3FCEA /* ProfileViewController.swift */,
 				11D33BB222A5681200F3FCEA /* BFFButton.swift */,
 				11D33BBB22A6BAEF00F3FCEA /* Models.swift */,
+				11D33BB622A613F900F3FCEA /* Coordinator */,
 				11D33BBD22A6CBB400F3FCEA /* Network */,
 				11D33BB822A6B97100F3FCEA /* Store */,
 				11D33BB722A6140500F3FCEA /* Utils */,
-				11D33BB622A613F900F3FCEA /* Coordinator */,
 				11D3172D2295D711008FD5FA /* Assets.xcassets */,
 				11D3172F2295D711008FD5FA /* LaunchScreen.storyboard */,
 				11D317322295D711008FD5FA /* Info.plist */,
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				11D33BB922A6B98000F3FCEA /* UserStore.swift */,
+				11D33BC022A8121C00F3FCEA /* DataStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				11D33BAF22A5644900F3FCEA /* DisplayUtils.swift in Sources */,
 				11D33BB322A5681200F3FCEA /* BFFButton.swift in Sources */,
 				11D317272295D70F008FD5FA /* AppDelegate.swift in Sources */,
+				11D33BC122A8121C00F3FCEA /* DataStore.swift in Sources */,
 				11D33BBA22A6B98000F3FCEA /* UserStore.swift in Sources */,
 				11D33BB522A57D6F00F3FCEA /* ProfileViewController.swift in Sources */,
 				114E8C612298554800A4DB02 /* Coordinator.swift in Sources */,

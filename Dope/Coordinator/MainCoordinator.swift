@@ -16,6 +16,7 @@ class MainCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     private let userStore = UserStore.sharedInstance
+    private let networkHandler = NetworkHandler()
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -27,23 +28,39 @@ class MainCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showProfile() {
-        fetchSCUserData { (success) in
+    func login(completion: @escaping (Bool) -> Void) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.fetchSCUserData { (success, userId) in
+                if (success) {
+                    self.loginRequest(externalId: userId!, completion: completion)
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    private func loginRequest(externalId: String, completion: @escaping (Bool) -> Void) {
+        networkHandler.login(externalId: externalId) { (success) in
             if (success) {
                 DispatchQueue.main.async {
                     let vc = ProfileViewController()
                     vc.coordinator = self
                     self.navigationController.pushViewController(vc, animated: true)
                 }
+                completion(true)
+            } else {
+                completion(false)
             }
         }
     }
     
-    private func fetchSCUserData(completion: @escaping (Bool) -> Void) {
+    private func fetchSCUserData(completion: @escaping (Bool, String?) -> Void) {
         SCSDKLoginClient.fetchUserData(withQuery: kSCGraphQLQuery, variables: kSCVariables, success: { (resources) in
             guard let resources = resources,
                 let data = resources["data"] as? [String : Any],
                 let me = data["me"] as? [String: Any] else {
+                    completion(false, nil)
                     return
             }
             
@@ -55,14 +72,13 @@ class MainCoordinator: Coordinator {
             }
             
             guard let userId = externalId else {
-                completion(false)
+                completion(false, nil)
                 return
             }
             self.userStore.setUserProfile(externalId: userId, bitmojiUrl: bitmojiAvatarUrl, displayName: displayName)
-            
-            completion(true)
+            completion(true, userId)
         }, failure: { (error, isUserLoggedOut) in
-            completion(false)
+            completion(false, nil)
         })
     }
 }

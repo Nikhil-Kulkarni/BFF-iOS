@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     private var safeArea: UIEdgeInsets?
     private var loginButton: UIButton!
     private var logoView: UIImageView!
+    private var indicatorView: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
         
         createLoginButton()
         createLogoView()
+        createIndicatorView()
     }
     
     private func createLoginButton() {
@@ -59,13 +61,39 @@ class ViewController: UIViewController {
         view.addSubview(logoView)
     }
     
+    private func createIndicatorView() {
+        indicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        indicatorView.frame = self.view.frame
+        indicatorView.backgroundColor = UIColor(red: 196/255.0, green: 195/255.0, blue: 196/255.0, alpha: 0.55)
+    }
+    
     @objc private func onClickedLoginButton() {
         SCSDKLoginClient.login(from: self) { (success, error) in
-            if (success){
-                self.coordinator?.showProfile()
+            if (success) {
+                DispatchQueue.main.async {
+                    self.indicatorView.startAnimating()
+                    self.view.addSubview(self.indicatorView)
+                }
+                self.coordinator?.login(completion: { (success) in
+                    DispatchQueue.main.async {
+                        self.indicatorView.stopAnimating()
+                        self.indicatorView.removeFromSuperview()
+                    }
+                    if (!success) {
+                        self.showLoginFailureAlert()
+                    }
+                })
             } else {
-                
+                self.showLoginFailureAlert()
             }
+        }
+    }
+    
+    private func showLoginFailureAlert() {
+        DispatchQueue.main.async {
+            let alertView = UIAlertController.init(title: "Failed to login", message: "Oh no! Something went wrong. Please try again.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
         }
     }
 

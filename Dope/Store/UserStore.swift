@@ -10,7 +10,7 @@ import Foundation
 
 class UserStore: NSObject {
     
-    var externalId: String?
+    var externalId: String!
     var bitmojiUrl: String?
     var displayName: String?
     
