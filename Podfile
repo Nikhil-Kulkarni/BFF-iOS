@@ -9,5 +9,6 @@ target 'Dope' do
   pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
   pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'SDWebImage'
 
 end

@@ -9,13 +9,14 @@
 import UIKit
 import SCSDKLoginKit
 
-let kSCGraphQLQuery = "{me{displayName, externalId, bitmoji{avatar}}}"
-let kSCVariables = ["page": "bitmoji"]
+private let kSCGraphQLQuery = "{me{displayName, externalId, bitmoji{avatar}}}"
+private let kSCVariables = ["page": "bitmoji"]
 
 class MainCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     private let userStore = UserStore.sharedInstance
+    private let scoresStore = ScoresStore.sharedInstance
     private let networkHandler = NetworkHandler()
     
     init(navigationController: UINavigationController) {
@@ -43,10 +44,12 @@ class MainCoordinator: Coordinator {
     private func loginRequest(externalId: String, completion: @escaping (Bool) -> Void) {
         networkHandler.login(externalId: externalId) { (success) in
             if (success) {
+                let profileCoordinator = ProfileCoordinator(
+                    navigationController: self.navigationController,
+                    userStore: self.userStore,
+                    scoreStore: self.scoresStore)
                 DispatchQueue.main.async {
-                    let vc = ProfileViewController()
-                    vc.coordinator = self
-                    self.navigationController.pushViewController(vc, animated: true)
+                    profileCoordinator.start()
                 }
                 completion(true)
             } else {

@@ -10,7 +10,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: ProfileCoordinator?
+    var viewModel: ProfileViewModel?
     
     private let questionsStore = QuestionsStore.sharedInstance
     private let scoresStore = ScoresStore.sharedInstance

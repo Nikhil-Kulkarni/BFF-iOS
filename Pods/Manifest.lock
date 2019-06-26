@@ -2,6 +2,9 @@ PODS:
   - Alamofire (4.8.2)
   - PINCache (2.3)
   - PINOperation (1.1.1)
+  - SDWebImage (5.0.0):
+    - SDWebImage/Core (= 5.0.0)
+  - SDWebImage/Core (5.0.0)
   - SnapSDK/SCSDKBitmojiKit (1.2.2):
     - PINCache (< 3.1, >= 2.3)
     - PINOperation (~> 1.1)
@@ -11,6 +14,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - SDWebImage
   - SnapSDK/SCSDKBitmojiKit
   - SnapSDK/SCSDKCreativeKit
   - SnapSDK/SCSDKLoginKit
@@ -21,6 +25,7 @@ SPEC REPOS:
     - Alamofire
     - PINCache
     - PINOperation
+    - SDWebImage
     - SnapSDK
     - SwiftyJSON
 
@@ -28,9 +33,10 @@ SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
+  SDWebImage: 5de80a0302de9e377e62f47d2fa1304efff0e55f
   SnapSDK: 16d505e0e5a9340c49ce767f3131f4af76fe29e8
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 4cbd94bae526106a0ed4a6117c53e775f57c3409
+PODFILE CHECKSUM: a730e551359ba52711073eed4367aa30b775a53e
 
 COCOAPODS: 1.7.0.beta.3

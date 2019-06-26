@@ -8,8 +8,8 @@
 
 import UIKit
 
-let kBFFButtonLeftPadding: CGFloat = 16.0
-let kBFFButtonImageWidth : CGFloat = 21.0
+private let kBFFButtonLeftPadding: CGFloat = 16.0
+private let kBFFButtonImageWidth : CGFloat = 21.0
 
 class BFFButton: UIButton {
     

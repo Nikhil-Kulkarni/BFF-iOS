@@ -9,12 +9,12 @@
 import UIKit
 import SCSDKLoginKit
 
-let kBFFLoginButtonSidePadding: CGFloat = 30.0
-let kBFFLoginButtonBottomPadding: CGFloat = 28.0
-let kBFFLoginButtonHeight: CGFloat = 54.0
-let kBFFLoginButtonCornerRadius: CGFloat = 8.0
-let kBFFLogoViewWidth: CGFloat = 80.0
-let kBFFLogoViewHeight: CGFloat = 46.66
+private let kBFFLoginButtonSidePadding: CGFloat = 30.0
+private let kBFFLoginButtonBottomPadding: CGFloat = 28.0
+private let kBFFLoginButtonHeight: CGFloat = 54.0
+private let kBFFLoginButtonCornerRadius: CGFloat = 10.0
+private let kBFFLogoViewWidth: CGFloat = 80.0
+private let kBFFLogoViewHeight: CGFloat = 46.66
 
 class ViewController: UIViewController {
     

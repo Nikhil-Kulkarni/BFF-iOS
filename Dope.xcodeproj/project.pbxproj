@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		114E8C612298554800A4DB02 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E8C602298554800A4DB02 /* Coordinator.swift */; };
 		114E8C632298558800A4DB02 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E8C622298558800A4DB02 /* MainCoordinator.swift */; };
+		11817BA822C1D76300FD2B4D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BA722C1D76300FD2B4D /* ProfileViewModel.swift */; };
+		11817BAB22C2667500FD2B4D /* ProfileCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BAA22C2667500FD2B4D /* ProfileCellViewModel.swift */; };
+		11817BAD22C2684F00FD2B4D /* TimestampUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BAC22C2684F00FD2B4D /* TimestampUtils.swift */; };
+		11817BAF22C2688D00FD2B4D /* ScoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BAE22C2688D00FD2B4D /* ScoreUtils.swift */; };
+		11817BB122C26B9C00FD2B4D /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BB022C26B9C00FD2B4D /* ProfileCoordinator.swift */; };
 		11D317272295D70F008FD5FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D317262295D70F008FD5FA /* AppDelegate.swift */; };
 		11D317292295D70F008FD5FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D317282295D70F008FD5FA /* ViewController.swift */; };
 		11D3172E2295D711008FD5FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11D3172D2295D711008FD5FA /* Assets.xcassets */; };
@@ -27,6 +32,11 @@
 /* Begin PBXFileReference section */
 		114E8C602298554800A4DB02 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		114E8C622298558800A4DB02 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		11817BA722C1D76300FD2B4D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		11817BAA22C2667500FD2B4D /* ProfileCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCellViewModel.swift; sourceTree = "<group>"; };
+		11817BAC22C2684F00FD2B4D /* TimestampUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampUtils.swift; sourceTree = "<group>"; };
+		11817BAE22C2688D00FD2B4D /* ScoreUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreUtils.swift; sourceTree = "<group>"; };
+		11817BB022C26B9C00FD2B4D /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		11D317232295D70F008FD5FA /* Dope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11D317262295D70F008FD5FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11D317282295D70F008FD5FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11817BA922C1D76A00FD2B4D /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				11817BA722C1D76300FD2B4D /* ProfileViewModel.swift */,
+				11817BAA22C2667500FD2B4D /* ProfileCellViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		11D3171A2295D70F008FD5FA = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +98,7 @@
 		11D317252295D70F008FD5FA /* Dope */ = {
 			isa = PBXGroup;
 			children = (
+				11817BA922C1D76A00FD2B4D /* View Models */,
 				11D317262295D70F008FD5FA /* AppDelegate.swift */,
 				11D317282295D70F008FD5FA /* ViewController.swift */,
 				11D33BB422A57D6F00F3FCEA /* ProfileViewController.swift */,
@@ -100,6 +120,7 @@
 			children = (
 				114E8C602298554800A4DB02 /* Coordinator.swift */,
 				114E8C622298558800A4DB02 /* MainCoordinator.swift */,
+				11817BB022C26B9C00FD2B4D /* ProfileCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -109,6 +130,8 @@
 			children = (
 				11D33BAE22A5644900F3FCEA /* DisplayUtils.swift */,
 				11D33BB022A5656D00F3FCEA /* ViewUtils.swift */,
+				11817BAC22C2684F00FD2B4D /* TimestampUtils.swift */,
+				11817BAE22C2688D00FD2B4D /* ScoreUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -263,14 +286,19 @@
 			files = (
 				11D317292295D70F008FD5FA /* ViewController.swift in Sources */,
 				11D33BBF22A6CBDB00F3FCEA /* NetworkHandler.swift in Sources */,
+				11817BAD22C2684F00FD2B4D /* TimestampUtils.swift in Sources */,
 				114E8C632298558800A4DB02 /* MainCoordinator.swift in Sources */,
+				11817BB122C26B9C00FD2B4D /* ProfileCoordinator.swift in Sources */,
 				11D33BB122A5656D00F3FCEA /* ViewUtils.swift in Sources */,
 				11D33BAF22A5644900F3FCEA /* DisplayUtils.swift in Sources */,
 				11D33BB322A5681200F3FCEA /* BFFButton.swift in Sources */,
 				11D317272295D70F008FD5FA /* AppDelegate.swift in Sources */,
+				11817BAF22C2688D00FD2B4D /* ScoreUtils.swift in Sources */,
 				11D33BC122A8121C00F3FCEA /* DataStore.swift in Sources */,
 				11D33BBA22A6B98000F3FCEA /* UserStore.swift in Sources */,
 				11D33BB522A57D6F00F3FCEA /* ProfileViewController.swift in Sources */,
+				11817BAB22C2667500FD2B4D /* ProfileCellViewModel.swift in Sources */,
+				11817BA822C1D76300FD2B4D /* ProfileViewModel.swift in Sources */,
 				114E8C612298554800A4DB02 /* Coordinator.swift in Sources */,
 				11D33BBC22A6BAEF00F3FCEA /* Models.swift in Sources */,
 			);
