@@ -24,12 +24,17 @@ class ProfileViewModel {
         processFetchedScores(scores: scores)
     }
     
-    var loadingState: LoadingState = LoadingState.Loading
+    var loadingState: LoadingState = LoadingState.Loading {
+        didSet {
+            self.loadingStateClosure?()
+        }
+    }
     var bitmojiUrl: String?
     var numberOfCells: Int {
         return cellViewModels.count
     }
     var reloadTableViewClosure: (() ->())?
+    var loadingStateClosure: (() -> ())?
     
     func getViewModel(indexPath: IndexPath) -> ProfileCellViewModel {
         return cellViewModels[indexPath.row]
@@ -58,11 +63,13 @@ class ProfileViewModel {
     }
     
     private func processFetchedScores(scores: [Score]) {
+        var viewModels = [ProfileCellViewModel]()
         for score in scores {
             let cellViewModel = createCellViewModel(score: score)
-            cellViewModels.append(cellViewModel)
+            viewModels.append(cellViewModel)
         }
         self.loadingState = LoadingState.Success
+        self.cellViewModels = viewModels
     }
     
 }

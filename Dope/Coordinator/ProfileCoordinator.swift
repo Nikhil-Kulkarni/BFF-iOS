@@ -23,6 +23,10 @@ class ProfileCoordinator: Coordinator {
         self.navigationController.pushViewController(profileVC, animated: true)
     }
     
+    func askFriends() {
+        
+    }
+    
     init(navigationController: UINavigationController, userStore: UserStore, scoreStore: ScoresStore) {
         self.navigationController = navigationController
         self.userStore = userStore
