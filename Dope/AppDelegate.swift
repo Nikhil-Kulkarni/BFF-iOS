@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let navigationController = UINavigationController()
         navigationController.navigationBar.isHidden = true
+        navigationController.navigationItem.backBarButtonItem?.isEnabled = false
         coordinator = MainCoordinator(navigationController: navigationController)
         coordinator?.start()
         

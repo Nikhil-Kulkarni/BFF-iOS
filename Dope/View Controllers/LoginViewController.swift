@@ -16,7 +16,7 @@ private let kBFFLoginButtonCornerRadius: CGFloat = 10.0
 private let kBFFLogoViewWidth: CGFloat = 80.0
 private let kBFFLogoViewHeight: CGFloat = 46.66
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
     
     weak var coordinator: MainCoordinator?
     

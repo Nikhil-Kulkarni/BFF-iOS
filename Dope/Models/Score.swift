@@ -16,7 +16,7 @@ class Score {
     
     init(json: [String: JSON]) {
         self.name = json["name"]?.stringValue
-        self.value = json["name"]?.intValue
+        self.value = json["value"]?.intValue
         self.timestamp = json["timestamp"]?.doubleValue
     }
 }

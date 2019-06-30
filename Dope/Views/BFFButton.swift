@@ -25,6 +25,9 @@ class BFFButton: UIButton {
     }
     
     private func setImage(image: UIImage?) {
+        if (image == nil) {
+            return
+        }
         leftImageView.frame = CGRect(x: kBFFButtonLeftPadding, y: 0, width: kBFFButtonImageWidth, height: frame.height)
         leftImageView.image = image
         leftImageView.contentMode = .scaleAspectFit

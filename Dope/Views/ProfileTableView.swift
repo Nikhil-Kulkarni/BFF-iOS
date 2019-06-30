@@ -10,7 +10,8 @@ import UIKit
 
 class ProfileTableView: UITableView {
     
-    static let reuseIdentifier = "ProfileTableViewCell"
+    static let itemReuseIdentifier = "ProfileTableViewCell"
+    static let headerReuseIdentifier = "HeaderReuseIdentifier"
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -20,7 +21,9 @@ class ProfileTableView: UITableView {
         super.init(frame: frame, style: style)
         
         backgroundColor = UIColor.white
-        register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableView.reuseIdentifier)
+        register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableView.itemReuseIdentifier)
+        register(HeaderTableViewCell.self, forCellReuseIdentifier: ProfileTableView.headerReuseIdentifier)
+        separatorStyle = .none
     }
     
 }

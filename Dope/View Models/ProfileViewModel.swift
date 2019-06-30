@@ -36,8 +36,12 @@ class ProfileViewModel {
     var reloadTableViewClosure: (() ->())?
     var loadingStateClosure: (() -> ())?
     
-    func getViewModel(indexPath: IndexPath) -> ProfileCellViewModel {
-        return cellViewModels[indexPath.row]
+    func headerViewModel() -> HeaderCellViewModel {
+        return HeaderCellViewModel(bitmojiImageUrl: self.bitmojiUrl, headerText: "Who's your BFF?")
+    }
+    
+    func getViewModel(row: Int) -> ProfileCellViewModel {
+        return cellViewModels[row]
     }
     
     private var cellViewModels = [ProfileCellViewModel]() {
@@ -47,11 +51,11 @@ class ProfileViewModel {
     }
     
     private func createCellViewModel(score: Score) -> ProfileCellViewModel {
-        let formattedScore = "\(String(describing: score.value))%"
+        let formattedScore = "\(String(describing: score.value!))%"
         let formattedTimestamp = TimestampUtils.getStringForTimestamp(timestamp: score.timestamp)
-        let emojiImage = UIImage(named: "TODO")
+        let emojiImage = ScoreUtils.getEmojiForScore(value: score.value)
         let scoreBarColor = ScoreUtils.getColorForScore(value: score.value)
-        let scoreBarMultipler = Float(score.value) / 100.0
+        let scoreBarMultipler = CGFloat(score.value) / 100.0
         
         return ProfileCellViewModel(
             name: score.name,
@@ -59,7 +63,8 @@ class ProfileViewModel {
             emoji: emojiImage,
             timestamp: formattedTimestamp,
             scoreBarColor: scoreBarColor,
-            scoreBarMultiplier: scoreBarMultipler)
+            scoreBarMultiplier: scoreBarMultipler,
+            rawScore: score.value)
     }
     
     private func processFetchedScores(scores: [Score]) {

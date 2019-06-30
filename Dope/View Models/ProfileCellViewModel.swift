@@ -14,5 +14,6 @@ struct ProfileCellViewModel {
     var emoji: UIImage?
     var timestamp: String
     var scoreBarColor: UIColor
-    var scoreBarMultiplier: Float
+    var scoreBarMultiplier: CGFloat
+    var rawScore: Int
 }

@@ -19,14 +19,34 @@ class MainCoordinator: Coordinator {
     private let scoresStore = ScoresStore.sharedInstance
     private let networkHandler = NetworkHandler()
     
+    private var profileCoordinator: ProfileCoordinator!
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.profileCoordinator = ProfileCoordinator(
+            navigationController: self.navigationController,
+            userStore: self.userStore,
+            scoreStore: self.scoresStore)
     }
     
     func start() {
-        let vc = ViewController()
-        vc.coordinator = self
+        let vc = LogoViewController()
         navigationController.pushViewController(vc, animated: true)
+        
+        fetchSCUserData { (success, userId) in
+            if (success) {
+                self.loginRequest(externalId: userId!, completion: { (success) in
+                    // no-op
+                })
+            } else {
+                let vc = LoginViewController()
+                vc.coordinator = self
+                DispatchQueue.main.async {
+                    self.navigationController.pushViewController(vc, animated: false)
+                    self.navigationController.interactivePopGestureRecognizer?.isEnabled = false
+                }
+            }
+        }
     }
     
     func login(completion: @escaping (Bool) -> Void) {
@@ -44,12 +64,8 @@ class MainCoordinator: Coordinator {
     private func loginRequest(externalId: String, completion: @escaping (Bool) -> Void) {
         networkHandler.login(externalId: externalId) { (success) in
             if (success) {
-                let profileCoordinator = ProfileCoordinator(
-                    navigationController: self.navigationController,
-                    userStore: self.userStore,
-                    scoreStore: self.scoresStore)
                 DispatchQueue.main.async {
-                    profileCoordinator.start()
+                    self.profileCoordinator.start()
                 }
                 completion(true)
             } else {

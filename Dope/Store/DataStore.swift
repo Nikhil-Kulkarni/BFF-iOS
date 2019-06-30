@@ -42,7 +42,7 @@ class ScoresStore {
         }
         
         scores.removeAll()
-        for scoreJson in json.arrayValue {
+        for scoreJson in json.arrayValue.reversed() {
             let score = Score(json: scoreJson.dictionaryValue)
             scores.append(score)
         }

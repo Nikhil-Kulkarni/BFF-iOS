@@ -9,24 +9,20 @@
 import UIKit
 import SDWebImage
 
-private let kBitmojiButtonBottomMargin: CGFloat = 20.0
-private let kBitmojiButtonTopMargin: CGFloat = 12.0
-private let kBitmojiButtonRightMargin: CGFloat = 12.0
 private let kBitmojiButtonSize: CGFloat = 48.0
 private let kAskFriendsButtonSidePadding: CGFloat = 30.0
 private let kAskFriendsButtonBottomPadding: CGFloat = 28.0
 private let kAskFriendsButtonHeight: CGFloat = 54.0
 private let kAskFriendsButtonCornerRadius: CGFloat = 10.0
-private let kProfileCellHeight: CGFloat = 51.0
+private let kProfileCellHeight: CGFloat = 76.0
 
 class ProfileViewController: UIViewController {
     
     weak var coordinator: ProfileCoordinator?
-    var viewModel: ProfileViewModel?
+    var viewModel: ProfileViewModel!
     
     private var safeArea: UIEdgeInsets!
-    private var askFriendsButton: BFFButton!
-    private var bitmojiButton: UIImageView!
+    private var findBFFBButton: BFFButton!
     private var tableView: ProfileTableView!
     
     private let questionsStore = QuestionsStore.sharedInstance
@@ -38,26 +34,17 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor.white
         safeArea = UIApplication.shared.keyWindow?.safeAreaInsets
         
-        initBitmojiButton()
         initTableView()
         initAskFriendsButton()
     }
     
-    private func initBitmojiButton() {
-        let x = view.frame.width - kBitmojiButtonSize - kBitmojiButtonRightMargin
-        let y = safeArea.top == 0 ? kBitmojiButtonTopMargin : safeArea.top
-        let frame = CGRect(x: x, y: y, width: kBitmojiButtonSize, height: kBitmojiButtonSize)
-        let imageView = UIImageView(frame: frame)
-        guard let bitmojiUrl = viewModel?.bitmojiUrl else {
-            return
-        }
-        imageView.sd_setImage(with: URL(string: bitmojiUrl), completed: nil)
-        
-        view.addSubview(imageView)
-    }
-    
     private func initTableView() {
-        viewModel?.reloadTableViewClosure = { [weak self] in
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        tableView = ProfileTableView(frame: frame)
+        tableView.dataSource = self
+        tableView.delegate = self
+        view.addSubview(tableView)
+        viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -69,17 +56,17 @@ class ProfileViewController: UIViewController {
         let bottomPadding = DisplayUtils.isIphoneX() ? safeArea.bottom : kAskFriendsButtonBottomPadding
         let frame = CGRect(x: kAskFriendsButtonSidePadding, y: view.frame.height - kAskFriendsButtonHeight - bottomPadding, width: screenWidth - 2 * kAskFriendsButtonSidePadding, height: kAskFriendsButtonHeight)
         
-        askFriendsButton = BFFButton(frame: frame, image: UIImage(named: "ghost"))
-        askFriendsButton.backgroundColor = UIColor(red: 255/255.0, green: 252/255.0, blue: 0.0, alpha: 1.0)
-        askFriendsButton.setTitle("Ask friends on Snapchat", for: .normal)
-        askFriendsButton.setTitleColor(UIColor.black, for: .normal)
-        askFriendsButton.titleLabel?.textAlignment = .center
-        askFriendsButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
-        askFriendsButton.roundCorners(UIRectCorner.allCorners, radius: kAskFriendsButtonCornerRadius)
-        askFriendsButton.dropShadow(color: UIColor.black, opacity: 0.15, offSet: CGSize(width: 4.0, height: 4.0), radius: kAskFriendsButtonCornerRadius, scale: true)
-        askFriendsButton.addTarget(self, action: #selector(onClickedAskFriends), for: .touchUpInside)
+        findBFFBButton = BFFButton(frame: frame, image: nil)
+        findBFFBButton.backgroundColor = UIColor(red: 255/255.0, green: 100/255.0, blue: 100/255.0, alpha: 1.0)
+        findBFFBButton.setTitle("Find my BFFs", for: .normal)
+        findBFFBButton.setTitleColor(UIColor.white, for: .normal)
+        findBFFBButton.titleLabel?.textAlignment = .center
+        findBFFBButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
+        findBFFBButton.roundCorners(UIRectCorner.allCorners, radius: kAskFriendsButtonCornerRadius)
+        findBFFBButton.dropShadow(color: UIColor.black, opacity: 0.15, offSet: CGSize(width: 4.0, height: 4.0), radius: kAskFriendsButtonCornerRadius, scale: true)
+        findBFFBButton.addTarget(self, action: #selector(onClickedAskFriends), for: .touchUpInside)
         
-        view.addSubview(askFriendsButton)
+        view.addSubview(findBFFBButton)
     }
     
     @objc private func onClickedAskFriends() {
@@ -94,19 +81,34 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let viewModel = viewModel else {
-            return 0
-        }
-        
         return viewModel.numberOfCells
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell(frame: CGRect.zero)
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableView.headerReuseIdentifier, for: indexPath) as! HeaderTableViewCell
+            cell.bind(viewModel: viewModel.headerViewModel())
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableView.itemReuseIdentifier, for: indexPath) as! ProfileTableViewCell
+        cell.bind(viewModel: viewModel.getViewModel(row: indexPath.row - 1))
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.row == 0) {
+            return kBitmojiButtonSize
+        }
         return kProfileCellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath.row == 0) {
+            return
+        }
+        let model = viewModel.getViewModel(row: indexPath.row - 1)
+        coordinator?.postFriendScoreToSnap(value: model.rawScore, friendName: model.name)
     }
     
 }
