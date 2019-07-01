@@ -14,7 +14,7 @@ private let kBitmojiButtonRightMargin: CGFloat = 12.0
 private let kBitmojiButtonSize: CGFloat = 48.0
 private let kHeaderTextLeftMargin: CGFloat = 18.0
 private let kHeaderTextSize: CGFloat = 24.0
-private let kHeaderTextViewHeight: CGFloat = 28.0
+private let kHeaderTextViewHeight: CGFloat = 30.0
 
 class HeaderTableViewCell: UITableViewCell {
     

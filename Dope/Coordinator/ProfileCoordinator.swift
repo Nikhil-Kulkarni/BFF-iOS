@@ -14,6 +14,7 @@ class ProfileCoordinator: Coordinator {
     var navigationController: UINavigationController
     private var userStore: UserStore
     private var scoreStore: ScoresStore
+    private var questionsCoordinator: QuestionsCoordinator!
     
     init(navigationController: UINavigationController, userStore: UserStore, scoreStore: ScoresStore) {
         self.navigationController = navigationController
@@ -52,17 +53,11 @@ class ProfileCoordinator: Coordinator {
     }
     
     func askFriends() {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100.0, height: 100.0))
-        view.backgroundColor = UIColor.blue
-        let sticker = SCSDKSnapSticker(stickerImage: view.toImage())
-        let snap = SCSDKNoSnapContent()
-        snap.sticker = sticker
-        snap.attachmentUrl = "https://www.google.com"
-        
-        let snapAPI = SCSDKSnapAPI(content: snap)
-        snapAPI.startSnapping { (error) in
-            print(error?.localizedDescription)
-        }
+        questionsCoordinator = QuestionsCoordinator(
+            navigationController: self.navigationController,
+            userStore: self.userStore,
+            questionsStore: QuestionsStore.sharedInstance)
+        questionsCoordinator.start()
     }
     
 }
