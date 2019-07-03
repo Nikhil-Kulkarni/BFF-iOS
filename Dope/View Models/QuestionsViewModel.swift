@@ -52,6 +52,10 @@ class QuestionsViewModel {
         return question?.text
     }
     
+    var questonNo: Int {
+        return questionNumber + 1
+    }
+    
     var cellViewModels: [QuestionsCellViewModel]? {
         if (state == .INTRO || state == .FINAL) {
             return nil
@@ -91,6 +95,20 @@ class QuestionsViewModel {
         } else {
             return "Post Quiz to Snapchat"
         }
+    }
+    
+    func primaryButtonImage() -> UIImage? {
+        if (state == .QUESTION) {
+            return UIImage(named: "shuffle")
+        }
+        return nil
+    }
+    
+    func primaryButtonLeftImage() -> UIImage? {
+        if (state == .FINAL) {
+            return UIImage(named: "ghost")
+        }
+        return nil
     }
     
     func primaryButtonBackgroundColor() -> UIColor {

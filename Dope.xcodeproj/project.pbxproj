@@ -22,6 +22,8 @@
 		114B2AF222C9A49E00E57194 /* QuestionsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114B2AF122C9A49E00E57194 /* QuestionsCellViewModel.swift */; };
 		114B2AF422C9A9E000E57194 /* QuestionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114B2AF322C9A9E000E57194 /* QuestionsCoordinator.swift */; };
 		114B2AF622C9AA4300E57194 /* QuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114B2AF522C9AA4300E57194 /* QuestionsViewController.swift */; };
+		114B2AF822CCFB8B00E57194 /* QuestionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114B2AF722CCFB8B00E57194 /* QuestionTableView.swift */; };
+		114B2AFA22CCFBBB00E57194 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114B2AF922CCFBBB00E57194 /* QuestionTableViewCell.swift */; };
 		114E8C612298554800A4DB02 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E8C602298554800A4DB02 /* Coordinator.swift */; };
 		114E8C632298558800A4DB02 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E8C622298558800A4DB02 /* MainCoordinator.swift */; };
 		11817BA822C1D76300FD2B4D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11817BA722C1D76300FD2B4D /* ProfileViewModel.swift */; };
@@ -59,6 +61,8 @@
 		114B2AF122C9A49E00E57194 /* QuestionsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsCellViewModel.swift; sourceTree = "<group>"; };
 		114B2AF322C9A9E000E57194 /* QuestionsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsCoordinator.swift; sourceTree = "<group>"; };
 		114B2AF522C9AA4300E57194 /* QuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsViewController.swift; sourceTree = "<group>"; };
+		114B2AF722CCFB8B00E57194 /* QuestionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableView.swift; sourceTree = "<group>"; };
+		114B2AF922CCFBBB00E57194 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		114E8C602298554800A4DB02 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		114E8C622298558800A4DB02 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		11817BA722C1D76300FD2B4D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -125,6 +129,8 @@
 				114B2ADD22C6699A00E57194 /* ProfileTableViewCell.swift */,
 				114B2ADF22C669A400E57194 /* ProfileTableView.swift */,
 				114B2AE722C9269600E57194 /* ShareScoreStickerView.swift */,
+				114B2AF722CCFB8B00E57194 /* QuestionTableView.swift */,
+				114B2AF922CCFBBB00E57194 /* QuestionTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -363,10 +369,12 @@
 				114B2AEA22C926E400E57194 /* ShareScoreViewModel.swift in Sources */,
 				11D33BAF22A5644900F3FCEA /* DisplayUtils.swift in Sources */,
 				114B2AE822C9269600E57194 /* ShareScoreStickerView.swift in Sources */,
+				114B2AF822CCFB8B00E57194 /* QuestionTableView.swift in Sources */,
 				11D33BB322A5681200F3FCEA /* BFFButton.swift in Sources */,
 				11D317272295D70F008FD5FA /* AppDelegate.swift in Sources */,
 				114B2AF222C9A49E00E57194 /* QuestionsCellViewModel.swift in Sources */,
 				11817BAF22C2688D00FD2B4D /* ScoreUtils.swift in Sources */,
+				114B2AFA22CCFBBB00E57194 /* QuestionTableViewCell.swift in Sources */,
 				11D33BC122A8121C00F3FCEA /* DataStore.swift in Sources */,
 				114B2AF422C9A9E000E57194 /* QuestionsCoordinator.swift in Sources */,
 				11D33BBA22A6B98000F3FCEA /* UserStore.swift in Sources */,
