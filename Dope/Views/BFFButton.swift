@@ -24,7 +24,7 @@ class BFFButton: UIButton {
         setImage(image: image)
     }
     
-    private func setImage(image: UIImage?) {
+    func setImage(image: UIImage?) {
         if (image == nil) {
             return
         }

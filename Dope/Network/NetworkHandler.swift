@@ -15,8 +15,6 @@ private let kBFFLoginEndpoint = "/Login"
 private let kBFFFetchScoresEndpoint = "/FetchScores"
 private let kBFFFetchQuestionsEndpoint = "/FetchQuestions"
 private let kBFFCreateTestEndpoint = "/CreateTest"
-private let kBFFFetchTestEndpoint = "/FetchTest"
-private let kBFFSubmitScoreEndpoint = "/SubmitScore"
 private let kSuccessRequestStatusCode = 200
 
 class NetworkHandler {
@@ -48,6 +46,34 @@ class NetworkHandler {
                 self.questionsStore.fromJson(json: jsonResponse.dictionaryValue["questions"])
                 self.scoresStore.fromJson(json: jsonResponse.dictionaryValue["scores"])
                 completion(true)
+        }
+    }
+    
+    func createTest(userId: String, submittedQuestions: [[String : String]], dispatchQueue: DispatchQueue, completion: @escaping (Bool, String?) -> Void) {
+        let parameters = ["userId": userId, "submittedQuestions": submittedQuestions] as [String : Any]
+        
+        Alamofire.request(
+            kBFFBaseUrl + kBFFCreateTestEndpoint,
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding(options: .prettyPrinted),
+            headers: nil)
+            .responseJSON(queue: dispatchQueue,
+                                       options: .allowFragments) { (data) in
+                                        if (data.response?.statusCode != kSuccessRequestStatusCode) {
+                                            print(data.result)
+                                            completion(false, nil)
+                                            return
+                                        }
+                                        
+                                        guard let data = data.result.value else {
+                                            completion(false, nil)
+                                            return
+                                        }
+                                        
+                                        let jsonResponse = JSON(data)
+                                        let url = jsonResponse.dictionaryValue["url"]?.stringValue
+                                        completion(true, url)
         }
     }
     

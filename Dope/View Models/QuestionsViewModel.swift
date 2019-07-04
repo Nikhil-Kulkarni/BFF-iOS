@@ -9,6 +9,8 @@
 import UIKit
 import SCSDKCreativeKit
 
+private let kDispatchQueueLabel = "com.nikhil.bff.CreateTest"
+
 class QuestionsViewModel {
     
     enum QuestionsState {
@@ -17,11 +19,14 @@ class QuestionsViewModel {
         case FINAL
     }
     
+    weak var coordinator: QuestionsCoordinator!
     private var userStore: UserStore!
     private var questionsStore: QuestionsStore!
     private var questionNumber = 0
     private var randomNumber = 0
     private var submittedQuestions: [[String: String]] = [[String: String]]()
+    
+    private let networkHandler = NetworkHandler()
     
     init(userStore: UserStore, questionsStore: QuestionsStore) {
         self.userStore = userStore
@@ -30,6 +35,7 @@ class QuestionsViewModel {
     }
     
     var reloadPage: (() -> ())?
+    var animateIndicatorView: ((Bool) -> ())?
     
     var state: QuestionsState = .INTRO {
         didSet {
@@ -126,15 +132,24 @@ class QuestionsViewModel {
     }
     
     func onChoiceSelected(choiceIndex: Int) {
+        saveChoice(choiceIndex: choiceIndex)
         if (questionNumber == 4) {
             self.state = .FINAL
             return
         }
         
-        saveChoice(choiceIndex: choiceIndex)
         generateNewQuestion()
         questionNumber += 1
         self.reloadPage?()
+    }
+    
+    func shareStickerView() -> ShareScoreStickerView? {
+        if (state == .INTRO || state == .QUESTION) {
+            return nil
+        }
+        
+        let viewModel = ShareScoreViewModel(score: 0, name: nil, userStore: self.userStore, swipeUpSubtext: "Swipe up to find out", stickerType: .SHARE_QUIZ)
+        return ShareScoreStickerView(viewModel: viewModel)
     }
     
     private func generateNewQuestion() {
@@ -156,17 +171,35 @@ class QuestionsViewModel {
     }
     
     private func postQuizToSnapchat() {
-        // TODO: update
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100.0, height: 100.0))
-        view.backgroundColor = UIColor.blue
+        guard let view = shareStickerView() else {
+            return
+        }
+        animateIndicatorView?(true)
         let sticker = SCSDKSnapSticker(stickerImage: view.toImage())
         let snap = SCSDKNoSnapContent()
         snap.sticker = sticker
-        snap.attachmentUrl = "https://www.google.com"
         
-        let snapAPI = SCSDKSnapAPI(content: snap)
-        snapAPI.startSnapping { (error) in
-            print(error?.localizedDescription)
+        let queue = DispatchQueue(
+            label: kDispatchQueueLabel,
+            qos: .userInitiated)
+        networkHandler.createTest(
+            userId: self.userStore.externalId,
+            submittedQuestions: submittedQuestions,
+            dispatchQueue: queue) { (success, url) in
+                guard let attachmentUrl = url else {
+                    return
+                }
+                
+                // TODO: Un-hardcode
+                snap.attachmentUrl = "https://www.google.com"
+                let snapAPI = SCSDKSnapAPI(content: snap)
+                
+                DispatchQueue.main.async {
+                    self.animateIndicatorView?(false)
+                    snapAPI.startSnapping { (error) in
+                        self.coordinator.pop()
+                    }
+                }
         }
     }
     

@@ -25,12 +25,13 @@ private let kTableViewCellHeight: CGFloat = 60.0
 
 class QuestionsViewController: UIViewController {
     
-    weak var coordinator: QuestionsCoordinator?
     var viewModel: QuestionsViewModel!
     private var safeArea: UIEdgeInsets?
     
     private var primaryButton: BFFButton!
     private var tableView: QuestionTableView!
+    private var shareView: ShareScoreStickerView!
+    private var indicatorView: UIActivityIndicatorView!
     private let introLabel = UILabel()
     private let questionLabel = UILabel()
     
@@ -41,9 +42,18 @@ class QuestionsViewController: UIViewController {
         initIntroLabel()
         initQuestionLabel()
         initTableView()
+        initShareView()
+        createIndicatorView()
         refreshPage()
         viewModel.reloadPage = {
             self.refreshPage()
+        }
+        viewModel.animateIndicatorView = { animating in
+            if (animating) {
+                self.startIndicatorView()
+            } else {
+                self.stopIndicatorView()
+            }
         }
     }
     
@@ -87,6 +97,13 @@ class QuestionsViewController: UIViewController {
         view.addSubview(tableView)
     }
     
+    private func initShareView() {
+        guard let shareView = viewModel.shareStickerView() else {
+            return
+        }
+        view.addSubview(shareView)
+    }
+    
     private func refreshPage() {
         primaryButton.alpha = 0.0
         introLabel.alpha = 0.0
@@ -96,6 +113,7 @@ class QuestionsViewController: UIViewController {
         refreshIntroLabel()
         refreshQuestionLabel()
         refreshTableView()
+        refreshShareView()
         UIView.animate(withDuration: 0.4) {
             self.primaryButton.alpha = 1.0
             self.introLabel.alpha = 1.0
@@ -109,6 +127,7 @@ class QuestionsViewController: UIViewController {
         primaryButton.setTitleColor(viewModel.primaryButtonTextColor(), for: .normal)
         primaryButton.backgroundColor = viewModel.primaryButtonBackgroundColor()
         primaryButton.setImage(viewModel.primaryButtonImage(), for: .normal)
+        primaryButton.setImage(image: viewModel.primaryButtonLeftImage())
     }
     
     private func refreshIntroLabel() {
@@ -127,6 +146,38 @@ class QuestionsViewController: UIViewController {
         
         tableView.isHidden = false
         tableView.reloadData()
+    }
+    
+    private func refreshShareView() {
+        guard let shareView = viewModel.shareStickerView() else {
+            return
+        }
+        let x = view.frame.width / 2 - shareView.frame.width / 2
+        let y = view.frame.height / 2 - shareView.frame.height / 2
+        shareView.frame = CGRect(x: x, y: y, width: shareView.frame.width, height: shareView.frame.height)
+        shareView.dropShadow(
+            color: UIColor.black,
+            opacity: 0.35,
+            offSet: CGSize(width: 4.0, height: 4.0),
+            radius: kPrimaryButtonCornerRadius,
+            scale: true)
+        view.addSubview(shareView)
+    }
+    
+    private func createIndicatorView() {
+        indicatorView = UIActivityIndicatorView(style: .whiteLarge)
+        indicatorView.frame = self.view.frame
+        indicatorView.backgroundColor = UIColor(red: 196/255.0, green: 195/255.0, blue: 196/255.0, alpha: 0.55)
+    }
+    
+    private func startIndicatorView() {
+        view.addSubview(indicatorView)
+        indicatorView.startAnimating()
+    }
+    
+    private func stopIndicatorView() {
+        indicatorView.stopAnimating()
+        indicatorView.removeFromSuperview()
     }
     
     @objc private func onPrimaryButtonClicked() {

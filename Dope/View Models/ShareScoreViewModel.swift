@@ -10,17 +10,29 @@ import UIKit
 
 class ShareScoreViewModel {
     
-    private var score: Int
-    private var name: String
-    var bitmojiUrl: String?
-    
-    init(score: Int, name: String, userStore: UserStore) {
-        self.score = score
-        self.name = name
-        self.bitmojiUrl = userStore.bitmojiUrl
+    enum StickerType {
+        case SHARE_SCORE
+        case SHARE_QUIZ
     }
     
-    var scoreText: String {
+    private var score: Int
+    private var name: String?
+    private var stickerType: StickerType
+    var swipeUpSubtext: String
+    var bitmojiUrl: String?
+    
+    init(score: Int, name: String?, userStore: UserStore, swipeUpSubtext: String, stickerType: StickerType) {
+        self.score = score
+        self.name = name
+        self.swipeUpSubtext = swipeUpSubtext
+        self.bitmojiUrl = userStore.bitmojiUrl
+        self.stickerType = stickerType
+    }
+    
+    var scoreText: String? {
+        if (stickerType == .SHARE_QUIZ) {
+            return nil
+        }
         return "\(score)%"
     }
     
@@ -28,15 +40,27 @@ class ShareScoreViewModel {
         return ScoreUtils.getColorForScore(value: self.score)
     }
     
-    var subtext: String {
-        return ScoreUtils.getScoreSubtextForScore(value: self.score, friendName: self.name)
+    var centerLabelText: String? {
+        if (stickerType == .SHARE_QUIZ) {
+            return "Are you my BFF?"
+        }
+        return nil
     }
     
-    var swipeUpSubtext: String {
-        return "Swipe up to find out who's your BFF"
+    var subtext: String? {
+        guard let name = self.name else {
+            return nil
+        }
+        if (stickerType == .SHARE_QUIZ) {
+            return nil
+        }
+        return ScoreUtils.getScoreSubtextForScore(value: self.score, friendName: name)
     }
     
     var emoji: UIImage? {
+        if (stickerType == .SHARE_QUIZ) {
+            return UIImage(named: "happyEmoji")
+        }
         return ScoreUtils.getEmojiForScore(value: self.score)
     }
     

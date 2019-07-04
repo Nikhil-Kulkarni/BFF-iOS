@@ -30,6 +30,7 @@ class ShareScoreStickerView: UIView {
     private var subtextLabel: UILabel!
     private var swipeUpView: UIView!
     private var swipeUpSubtextLabel: UILabel!
+    private var centerLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -46,6 +47,7 @@ class ShareScoreStickerView: UIView {
         initBitmojiView()
         initScoreLabel()
         initScoreSubtext()
+        initCenterLabel()
         initSwipeUpView()
         initSwipeUpLabel()
     }
@@ -69,9 +71,12 @@ class ShareScoreStickerView: UIView {
     }
     
     private func initScoreLabel() {
+        guard let scoreText = viewModel.scoreText else {
+            return
+        }
         let frame = CGRect(x: 0, y: 58.0, width: self.frame.width, height: kScoreLabelHeight)
         scoreLabel = UILabel(frame: frame)
-        scoreLabel.text = viewModel.scoreText
+        scoreLabel.text = scoreText
         scoreLabel.textColor = viewModel.scoreTextColor
         scoreLabel.font = UIFont(name: "Chewy-Regular", size: kScoreLabelTextSize)
         scoreLabel.textAlignment = .center
@@ -79,13 +84,29 @@ class ShareScoreStickerView: UIView {
     }
     
     private func initScoreSubtext() {
+        guard let subtext = viewModel.subtext else {
+            return
+        }
         let frame = CGRect(x: 0, y: 101.0, width: self.frame.width, height: kScoreSubtextHeight)
         subtextLabel = UILabel(frame: frame)
-        subtextLabel.text = viewModel.subtext
+        subtextLabel.text = subtext
         subtextLabel.textColor = UIColor.black
         subtextLabel.font = UIFont.boldSystemFont(ofSize: kScoreSubtextTextSize)
         subtextLabel.textAlignment = .center
         addSubview(subtextLabel)
+    }
+    
+    private func initCenterLabel() {
+        guard let centerText = viewModel.centerLabelText else {
+            return
+        }
+        let frame = CGRect(x: 0, y: 80.0, width: self.frame.width, height: kScoreSubtextHeight)
+        centerLabel = UILabel(frame: frame)
+        centerLabel.text = centerText
+        centerLabel.textColor = UIColor.black
+        centerLabel.font = UIFont.boldSystemFont(ofSize: kScoreSubtextTextSize)
+        centerLabel.textAlignment = .center
+        addSubview(centerLabel)
     }
     
     private func initSwipeUpView() {

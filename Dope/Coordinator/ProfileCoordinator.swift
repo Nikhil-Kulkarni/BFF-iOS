@@ -36,7 +36,7 @@ class ProfileCoordinator: Coordinator {
         let alert = UIAlertController(title: "Post to Snapchat?", message: "Do you want to post your BFFs to Snapchat?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-            let shareScoreViewModel = ShareScoreViewModel(score: value, name: friendName, userStore: self.userStore)
+            let shareScoreViewModel = ShareScoreViewModel(score: value, name: friendName, userStore: self.userStore, swipeUpSubtext: "Swipe up to find out who's your BFF", stickerType: .SHARE_SCORE)
             let scoreViewSticker = ShareScoreStickerView(viewModel: shareScoreViewModel)
             let sticker = SCSDKSnapSticker(stickerImage: scoreViewSticker.toImage())
             let snap = SCSDKNoSnapContent()

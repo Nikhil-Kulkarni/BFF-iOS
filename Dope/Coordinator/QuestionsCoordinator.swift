@@ -22,12 +22,18 @@ class QuestionsCoordinator: Coordinator {
     
     func start() {
         let viewModel = QuestionsViewModel(userStore: self.userStore, questionsStore: self.questionsStore)
+        viewModel.coordinator = self
         let vc = QuestionsViewController()
-        vc.coordinator = self
         vc.viewModel = viewModel
         
         DispatchQueue.main.async {
             self.navigationController.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func pop() {
+        DispatchQueue.main.async {
+            self.navigationController.popViewController(animated: true)
         }
     }
     
