@@ -42,7 +42,7 @@ class ShareScoreViewModel {
     
     var centerLabelText: String? {
         if (stickerType == .SHARE_QUIZ) {
-            return "Are you my BFF?"
+            return "How well do you know me?"
         }
         return nil
     }

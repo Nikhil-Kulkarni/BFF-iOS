@@ -50,7 +50,7 @@ class MainCoordinator: Coordinator {
     }
     
     func login(completion: @escaping (Bool) -> Void) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             self.fetchSCUserData { (success, userId) in
                 if (success) {
                     self.loginRequest(externalId: userId!, completion: completion)

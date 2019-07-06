@@ -46,6 +46,10 @@ class ScoresStore {
             let score = Score(json: scoreJson.dictionaryValue)
             scores.append(score)
         }
+        
+        scores.sort { (scoreA, scoreB) -> Bool in
+            scoreA.timestamp > scoreB.timestamp
+        }
     }
     
 }

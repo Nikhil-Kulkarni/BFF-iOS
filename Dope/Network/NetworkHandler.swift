@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-private let kBFFBaseUrl = "https://00f7fcd9.ngrok.io"
+private let kBFFBaseUrl = "https://a3890875.ngrok.io"
 private let kBFFLoginEndpoint = "/Login"
 private let kBFFFetchScoresEndpoint = "/FetchScores"
 private let kBFFFetchQuestionsEndpoint = "/FetchQuestions"
