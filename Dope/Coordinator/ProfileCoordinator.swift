@@ -8,22 +8,25 @@
 
 import UIKit
 import SCSDKCreativeKit
+import SCSDKLoginKit
 
 class ProfileCoordinator: Coordinator {
     
     var navigationController: UINavigationController
-    private var userStore: UserStore
-    private var scoreStore: ScoresStore
+    private var userStore: UserStore!
+    private var scoreStore: ScoresStore!
+    private var networkHandler: NetworkHandler!
     private var questionsCoordinator: QuestionsCoordinator!
     
-    init(navigationController: UINavigationController, userStore: UserStore, scoreStore: ScoresStore) {
+    init(navigationController: UINavigationController, userStore: UserStore, scoreStore: ScoresStore, networkHandler: NetworkHandler) {
         self.navigationController = navigationController
         self.userStore = userStore
         self.scoreStore = scoreStore
+        self.networkHandler = networkHandler
     }
     
     func start() {
-        let viewModel = ProfileViewModel(userStore: userStore, scoresStore: scoreStore)
+        let viewModel = ProfileViewModel(userStore: userStore, scoresStore: scoreStore, networkHandler: networkHandler)
         let profileVC = ProfileViewController()
         
         profileVC.coordinator = self
@@ -58,6 +61,24 @@ class ProfileCoordinator: Coordinator {
             userStore: self.userStore,
             questionsStore: QuestionsStore.sharedInstance)
         questionsCoordinator.start()
+    }
+    
+    func onBitmojiButtonClicked() {
+        let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { (action) in
+            SCSDKLoginClient.unlinkCurrentSession(completion: { (success) in
+                let loginController = LoginViewController()
+                DispatchQueue.main.async {
+                    self.navigationController.present(loginController, animated: false, completion: nil)
+                }
+            })
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        optionMenu.addAction(logoutAction)
+        optionMenu.addAction(cancelAction)
+        DispatchQueue.main.async {
+            self.navigationController.present(optionMenu, animated: true, completion: nil)
+        }
     }
     
 }

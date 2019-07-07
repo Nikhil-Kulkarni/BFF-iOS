@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-private let kBFFBaseUrl = "https://a3890875.ngrok.io"
+private let kBFFBaseUrl = "https://test-my-friends.herokuapp.com"
 private let kBFFLoginEndpoint = "/Login"
 private let kBFFFetchScoresEndpoint = "/FetchScores"
 private let kBFFFetchQuestionsEndpoint = "/FetchQuestions"
@@ -44,6 +44,35 @@ class NetworkHandler {
                 
                 let jsonResponse = JSON(data)
                 self.questionsStore.fromJson(json: jsonResponse.dictionaryValue["questions"])
+                self.scoresStore.fromJson(json: jsonResponse.dictionaryValue["scores"])
+                completion(true)
+        }
+    }
+    
+    func fetchScores(userId: String, dispatchQueue: DispatchQueue, completion: @escaping (Bool) -> Void) {
+        let parameters = ["userId": userId]
+        
+        Alamofire.request(
+            kBFFBaseUrl + kBFFFetchScoresEndpoint,
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding(options: .prettyPrinted),
+            headers: nil)
+        .responseJSON(
+            queue: dispatchQueue,
+            options: .allowFragments) { (data) in
+                if (data.response?.statusCode != kSuccessRequestStatusCode) {
+                    print(data.result)
+                    completion(false)
+                    return
+                }
+                
+                guard let data = data.result.value else {
+                    completion(false)
+                    return
+                }
+                
+                let jsonResponse = JSON(data)
                 self.scoresStore.fromJson(json: jsonResponse.dictionaryValue["scores"])
                 completion(true)
         }

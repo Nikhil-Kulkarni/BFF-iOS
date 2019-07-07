@@ -16,10 +16,15 @@ private let kHeaderTextLeftMargin: CGFloat = 18.0
 private let kHeaderTextSize: CGFloat = 24.0
 private let kHeaderTextViewHeight: CGFloat = 30.0
 
+protocol HeaderTableViewCellDelegate {
+    func onBitmojiButtonClicked()
+}
+
 class HeaderTableViewCell: UITableViewCell {
     
-    private let bitmojiButton = UIImageView()
+    private let bitmojiButton = UIButton()
     private let headerLabel = UILabel()
+    var delegate: HeaderTableViewCellDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -40,6 +45,7 @@ class HeaderTableViewCell: UITableViewCell {
         let y = contentView.frame.height / 2 - kBitmojiButtonSize / 2
         let frame = CGRect(x: x, y: y, width: kBitmojiButtonSize, height: kBitmojiButtonSize)
         bitmojiButton.frame = frame
+        bitmojiButton.addTarget(self, action: #selector(onBitmojiClicked), for: .touchUpInside)
         contentView.addSubview(bitmojiButton)
     }
     
@@ -52,12 +58,16 @@ class HeaderTableViewCell: UITableViewCell {
         contentView.addSubview(headerLabel)
     }
     
+    @objc private func onBitmojiClicked() {
+        delegate?.onBitmojiButtonClicked()
+    }
+    
     func bind(viewModel: HeaderCellViewModel) {
         headerLabel.text = viewModel.headerText
         guard let bitmojiUrl = viewModel.bitmojiImageUrl else {
             return
         }
-        bitmojiButton.sd_setImage(with: URL(string: bitmojiUrl), completed: nil)
+        bitmojiButton.sd_setImage(with: URL(string: bitmojiUrl), for: .normal, completed: nil)
     }
     
 }

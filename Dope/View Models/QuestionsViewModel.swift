@@ -191,7 +191,7 @@ class QuestionsViewModel {
                 }
                 
                 // TODO: Un-hardcode
-                snap.attachmentUrl = "https://www.google.com"
+                snap.attachmentUrl = attachmentUrl
                 let snapAPI = SCSDKSnapAPI(content: snap)
                 
                 DispatchQueue.main.async {

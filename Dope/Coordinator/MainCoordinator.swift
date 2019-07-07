@@ -26,7 +26,8 @@ class MainCoordinator: Coordinator {
         self.profileCoordinator = ProfileCoordinator(
             navigationController: self.navigationController,
             userStore: self.userStore,
-            scoreStore: self.scoresStore)
+            scoreStore: self.scoresStore,
+            networkHandler: self.networkHandler)
     }
     
     func start() {

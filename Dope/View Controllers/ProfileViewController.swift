@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
     
     private let questionsStore = QuestionsStore.sharedInstance
     private let scoresStore = ScoresStore.sharedInstance
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,7 @@ class ProfileViewController: UIViewController {
         
         initTableView()
         initAskFriendsButton()
+        initRefreshControl()
     }
     
     private func initTableView() {
@@ -43,6 +45,7 @@ class ProfileViewController: UIViewController {
         tableView = ProfileTableView(frame: frame)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
         view.addSubview(tableView)
         viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
@@ -69,8 +72,22 @@ class ProfileViewController: UIViewController {
         view.addSubview(findBFFBButton)
     }
     
+    private func initRefreshControl() {
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshScores), for: .valueChanged)
+    }
+    
     @objc private func onClickedAskFriends() {
         coordinator?.askFriends()
+    }
+    
+    @objc private func refreshScores() {
+        viewModel.onRefreshed { (success) in
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -87,6 +104,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableView.headerReuseIdentifier, for: indexPath) as! HeaderTableViewCell
+            cell.delegate = self
             cell.bind(viewModel: viewModel.headerViewModel())
             return cell
         }
@@ -109,6 +127,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let model = viewModel.getViewModel(row: indexPath.row - 1)
         coordinator?.postFriendScoreToSnap(value: model.rawScore, friendName: model.name)
+    }
+    
+}
+
+extension ProfileViewController: HeaderTableViewCellDelegate {
+    
+    func onBitmojiButtonClicked() {
+        coordinator?.onBitmojiButtonClicked()
     }
     
 }

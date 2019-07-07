@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let kFetchScoreQueue = "com.nikhil.Dope.FetchScore"
+
 class ProfileViewModel {
 
     enum LoadingState {
@@ -16,10 +18,15 @@ class ProfileViewModel {
         case Failed
     }
     
-    init(userStore: UserStore, scoresStore: ScoresStore) {
+    private var networkHandler: NetworkHandler!
+    private var userId: String!
+    
+    init(userStore: UserStore, scoresStore: ScoresStore, networkHandler: NetworkHandler) {
         let scores = scoresStore.scores
         let bitmojiUrl = userStore.bitmojiUrl
         
+        self.networkHandler = networkHandler
+        self.userId = userStore.externalId
         self.bitmojiUrl = bitmojiUrl
         processFetchedScores(scores: scores)
     }
@@ -31,7 +38,7 @@ class ProfileViewModel {
     }
     var bitmojiUrl: String?
     var numberOfCells: Int {
-        return cellViewModels.count
+        return cellViewModels.count + 1
     }
     var reloadTableViewClosure: (() ->())?
     var loadingStateClosure: (() -> ())?
@@ -42,6 +49,16 @@ class ProfileViewModel {
     
     func getViewModel(row: Int) -> ProfileCellViewModel {
         return cellViewModels[row]
+    }
+    
+    func onRefreshed(completion: @escaping (Bool) -> Void) {
+        let dispatchQueue = DispatchQueue(
+            label: kFetchScoreQueue,
+            qos: .userInitiated)
+        networkHandler.fetchScores(
+            userId: self.userId,
+            dispatchQueue: dispatchQueue,
+            completion: completion)
     }
     
     private var cellViewModels = [ProfileCellViewModel]() {
